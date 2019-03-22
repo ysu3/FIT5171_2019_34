@@ -77,7 +77,7 @@ public class User extends Entity {
                 '}';
     }
 
-
+    private String aa;
 
 }
 
