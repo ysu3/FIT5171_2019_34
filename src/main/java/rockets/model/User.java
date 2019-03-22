@@ -76,7 +76,7 @@ public class User extends Entity {
                 ", email='" + email + '\'' +
                 '}';
     }
-
+    private String ss;
 
 }
 
