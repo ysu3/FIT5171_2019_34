@@ -5,6 +5,8 @@ import com.google.common.collect.Sets;
 import java.util.Objects;
 import java.util.Set;
 
+import static org.apache.commons.lang3.Validate.notBlank;
+
 public class LaunchServiceProvider extends Entity {
     private String name;
 
@@ -45,6 +47,7 @@ public class LaunchServiceProvider extends Entity {
     }
 
     public void setHeadquarters(String headquarters) {
+        notBlank(headquarters, "headquarters cannot be null or empty");
         this.headquarters = headquarters;
     }
 
