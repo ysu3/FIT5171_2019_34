@@ -14,48 +14,43 @@ public class LaunchServiceProviderUnitTest {
     private String name;
     private int yearFounded;
     private String country;
-    private String nullName = null;
-    private int minusYearFounded = -1;
-    private String nullCountry = null;
+    private String nullName;
+    private int minusYearFounded;
+    private String nullCountry;
 
     @BeforeEach
     public void setUp() {
-        target = new LaunchServiceProvider(name, yearFounded, country);
-    }
 
-    public String whenEnterNullName(String name, int yearFounded, String country){
-        return name;
-    }
-
-    public String whenEnterNullCountry(String name, int yearFounded, String country){
-        return country;
-    }
-
-    public int whenEnterMinusYear(String name, int yearFounded, String country){
-        return yearFounded;
+        this.nullName = null;
+        this.minusYearFounded = -1;
+        this.nullCountry = null;
     }
 
     @DisplayName("should throw exception when pass null to settle name")
     @Test
-    public void shouldThrowExceptionWhenSetNameToNull(){
-        assertNull(whenEnterNullName(nullName, yearFounded, country),"true");
+    public void whenEnterNullName(){
+        target = new LaunchServiceProvider(nullName, yearFounded,country);
+        assertNull(nullName,"true");
     }
 
     @DisplayName("should throw exception when pass null to settle country")
     @Test
-    public void shouldThrowExceptionWhenSetCountryToNull(){
-        assertNull(whenEnterNullCountry(name, yearFounded, nullCountry),"true");
+    public void whenEnterNullCountry(){
+        target = new LaunchServiceProvider(name, yearFounded,nullCountry);
+        assertNull(nullCountry,"true");
     }
 
-    @DisplayName("should throw exception when pass the year before 1900")
+    @DisplayName("should throw exception when pass yearFounded less than 1900")
     @Test
-    public void shouldThrowExceptionWhenSetYearFoundedToNull(){
-        assertTrue(whenEnterMinusYear(name, minusYearFounded, country) < 1900,"true");
+    public void whenEnterLessYearFounded(){
+        target = new LaunchServiceProvider(name, minusYearFounded,country);
+        assertTrue(minusYearFounded < 1900);
     }
 
     @DisplayName("should throw exceptions when pass a null headquarters to setHeadquarters function")
     @Test
     public void shouldThrowExceptionWhenSetPasswordToNull() {
+        target = new LaunchServiceProvider(name, yearFounded,country);
         NullPointerException exception = assertThrows(NullPointerException.class,
                 () -> target.setHeadquarters(null));
         assertEquals("headquarters cannot be null or empty", exception.getMessage());
