@@ -42,5 +42,24 @@ class RocketTest {
         assertEquals("Mass cannot be null", exception.getMessage());
     }
 
+    @DisplayName("should throw exception when pass null to setFamily function")
+    @Test
+    public void shouldThrowExceptionWhenSetFamilyToNull() {
+        NullPointerException exception = assertThrows(NullPointerException.class, () -> target.setFamily(null));
+        assertEquals("Family cannot be null", exception.getMessage());
+    }
 
+    @DisplayName("should throw exception when pass null to setSeries function")
+    @Test
+    public void shouldThrowExceptionWhenSetSeriesToNull() {
+        NullPointerException exception = assertThrows(NullPointerException.class, () -> target.setSeries(null));
+        assertEquals("Series cannot be null", exception.getMessage());
+    }
+
+    @DisplayName("should throw exception when pass null to setRocketCode function")
+    @Test
+    public void shouldThrowExceptionWhenSetRocketCodeToNull() {
+        NullPointerException exception = assertThrows(NullPointerException.class, () -> target.setRocketCode(null));
+        assertEquals("RocketCode cannot be null", exception.getMessage());
+    }
 }

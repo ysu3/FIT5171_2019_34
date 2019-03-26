@@ -5,12 +5,18 @@ import java.util.Objects;
 
 import static org.apache.commons.lang3.Validate.notNull;
 
-public class Rocket extends Entity {
+public class  Rocket extends Entity {
     private String name;
 
     private String country;
 
     private String manufacturer;
+
+    private String family;
+
+    private String series;
+
+    private String rocketCode;
 
     private String massToLEO;
 
@@ -55,6 +61,12 @@ public class Rocket extends Entity {
         return manufacturer;
     }
 
+    public String getFamily(){ return family;}
+
+    public String getSeries(){ return series; }
+
+    public String getRocketCode(){ return rocketCode;}
+
     public String getMassToLEO() {
         return massToLEO;
     }
@@ -65,6 +77,21 @@ public class Rocket extends Entity {
 
     public String getMassToOther() {
         return massToOther;
+    }
+
+    public void setFamily(String family){
+        notNull(family,"Family cannot be null");
+        this.family = family;
+    }
+
+    public void setSeries(String series){
+        notNull(series,"Series cannot be null");
+        this.series = series;
+    }
+
+    public void setRocketCode(String rocketCode){
+        notNull(rocketCode,"RocketCode cannot be null");
+        this.rocketCode = rocketCode;
     }
 
     public void setMassToLEO(String massToLEO) {

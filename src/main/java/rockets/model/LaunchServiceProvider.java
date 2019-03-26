@@ -2,6 +2,8 @@ package rockets.model;
 
 import com.google.common.collect.Sets;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -18,13 +20,18 @@ public class LaunchServiceProvider extends Entity {
 
     private Set<Rocket> rockets;
 
+    private Map<String, Rocket> rocketmap;
+
     public LaunchServiceProvider(String name, int yearFounded, String country) {
         this.name = name;
         this.yearFounded = yearFounded;
         this.country = country;
 
         rockets = Sets.newLinkedHashSet();
+        rocketmap = new HashMap<String, Rocket>();
     }
+
+    public Map<String, Rocket> getRocketGroup(){ return rocketmap;}
 
     public String getName() {
         return name;
@@ -53,6 +60,10 @@ public class LaunchServiceProvider extends Entity {
 
     public void setRockets(Set<Rocket> rockets) {
         this.rockets = rockets;
+    }
+
+    public void addRocketToGroup(Rocket rocket){
+        rocketmap.put(rocket.getSeries(), rocket);
     }
 
     @Override

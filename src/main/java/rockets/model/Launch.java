@@ -3,7 +3,9 @@ package rockets.model;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
-import java.util.Set;
+import java.util.*;
+
+import static org.apache.commons.lang3.Validate.*;
 
 public class Launch extends Entity {
     public enum LaunchOutcome {

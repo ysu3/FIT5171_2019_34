@@ -1,4 +1,5 @@
 package rockets.model;
+import java.util.*;
 
 public abstract class Entity {
     private Long id;
@@ -13,7 +14,6 @@ public abstract class Entity {
         this.wikilink = wikilink;
     }
 
-
     public Long getId() {
         return id;
     }
@@ -21,4 +21,6 @@ public abstract class Entity {
     public void setId(Long id) {
         this.id = id;
     }
+
+
 }
