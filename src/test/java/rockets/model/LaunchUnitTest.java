@@ -19,6 +19,7 @@ public class LaunchUnitTest {
         target = new Launch();
     }
 
+    //payload should be satellites or spacecrafts
     @DisplayName("what is included in payload list should be equaled with satellites or spacecrafts")
     @Test
     public void shouldThrowExceptionWhenSetPayloadsAreNotSatellitesOrSpacecrafts(){
@@ -33,7 +34,7 @@ public class LaunchUnitTest {
         boolean isTrue = true;
         Iterator iter = payload.iterator();
         while(iter.hasNext()){
-            if(!iter.next().equals("satellites") && !iter.next().equals("satellites")){
+            if(!iter.next().equals("satellites") && !iter.next().equals("spacecrafts")){
                 isTrue = false;
                 break;
             }

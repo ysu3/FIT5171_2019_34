@@ -21,6 +21,7 @@ class RocketTest {
     }
 
 
+    //massToLEO should not be null
     @DisplayName("should throw exception when pass null to setMassToLEO function")
     @Test
     public void shouldThrowExceptionWhenSetMassToLEOToNull() {
@@ -28,20 +29,23 @@ class RocketTest {
         assertEquals("Mass cannot be null", exception.getMessage());
     }
 
-    @DisplayName("should throw exception when pass null to setMassToLEO function")
+    //MassToGTO should not be null
+    @DisplayName("should throw exception when pass null to setMassToGTO function")
     @Test
     public void shouldThrowExceptionWhenSetMassToGTOToNull() {
         NullPointerException exception = assertThrows(NullPointerException.class, () -> target.setMassToGTO(null));
         assertEquals("Mass cannot be null", exception.getMessage());
     }
 
-    @DisplayName("should throw exception when pass null to setMassToLEO function")
+    //MassToOther should not be null
+    @DisplayName("should throw exception when pass null to setMassToOther function")
     @Test
     public void shouldThrowExceptionWhenSetMassToOtherToNull() {
         NullPointerException exception = assertThrows(NullPointerException.class, () -> target.setMassToOther(null));
         assertEquals("Mass cannot be null", exception.getMessage());
     }
 
+    //Family should not be null
     @DisplayName("should throw exception when pass null to setFamily function")
     @Test
     public void shouldThrowExceptionWhenSetFamilyToNull() {
@@ -49,6 +53,7 @@ class RocketTest {
         assertEquals("Family cannot be null", exception.getMessage());
     }
 
+    //Series should not be null
     @DisplayName("should throw exception when pass null to setSeries function")
     @Test
     public void shouldThrowExceptionWhenSetSeriesToNull() {
@@ -56,6 +61,7 @@ class RocketTest {
         assertEquals("Series cannot be null", exception.getMessage());
     }
 
+    //RocketCode should not be null
     @DisplayName("should throw exception when pass null to setRocketCode function")
     @Test
     public void shouldThrowExceptionWhenSetRocketCodeToNull() {
