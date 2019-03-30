@@ -2,8 +2,7 @@ package rockets.model;
 
 import java.util.Objects;
 
-import static org.apache.commons.lang3.Validate.notBlank;
-import static org.apache.commons.lang3.Validate.notNull;
+import static org.apache.commons.lang3.Validate.*;
 
 public class User extends Entity {
     private String firstName;
@@ -13,6 +12,10 @@ public class User extends Entity {
     private String email;
 
     private String password;
+
+    private String passwordFormat;
+
+    private String emailFormat;
 
     public String getFirstName() {
         return firstName;
@@ -37,6 +40,9 @@ public class User extends Entity {
     public void setEmail(String email) {
         notBlank(email, "email cannot be null or empty");
         notNull(email, "email cannot be null or empty");
+        // Check the email format
+        emailFormat =  "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+        matchesPattern(email,emailFormat,"email format is invalid");
         this.email = email;
     }
 
@@ -46,6 +52,9 @@ public class User extends Entity {
 
     public void setPassword(String password) {
         notNull(password, "password cannot be null or empty");
+        // Check the password format
+        passwordFormat = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$";
+        matchesPattern(password,passwordFormat,"password must contain 8 - 16 characters and composed by number and characters");
         this.password = password;
     }
 
