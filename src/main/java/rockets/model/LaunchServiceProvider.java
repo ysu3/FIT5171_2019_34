@@ -63,7 +63,7 @@ public class LaunchServiceProvider extends Entity {
     }
 
     public void addRocketToGroup(Rocket rocket){
-        rocketmap.put(rocket.getSeries(), rocket);
+        rocketmap.put(rocket.getFamily(), rocket);
     }
 
     @Override

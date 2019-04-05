@@ -27,6 +27,7 @@ public class LaunchServiceProviderUnitTest {
         this.nullCountry = null;
     }
 
+    //name should not be null
     @DisplayName("should throw exception when pass null to settle name")
     @Test
     public void whenEnterNullName(){
@@ -34,6 +35,7 @@ public class LaunchServiceProviderUnitTest {
         assertNull(nullName,"true");
     }
 
+    //country should not be null
     @DisplayName("should throw exception when pass null to settle country")
     @Test
     public void whenEnterNullCountry(){
@@ -41,6 +43,7 @@ public class LaunchServiceProviderUnitTest {
         assertNull(nullCountry,"true");
     }
 
+    //yearFounded should more than 1900
     @DisplayName("should throw exception when pass yearFounded less than 1900")
     @Test
     public void whenEnterLessYearFounded(){
@@ -48,6 +51,7 @@ public class LaunchServiceProviderUnitTest {
         assertTrue(minusYearFounded < 1900);
     }
 
+    //headquarters should not be null
     @DisplayName("should throw exceptions when pass a null headquarters to setHeadquarters function")
     @Test
     public void shouldThrowExceptionWhenSetPasswordToNull() {
@@ -57,16 +61,17 @@ public class LaunchServiceProviderUnitTest {
         assertEquals("headquarters cannot be null or empty", exception.getMessage());
     }
 
-    @DisplayName("should throw exceptions when pass same series rockets in different group to addRocketToGroup function")
+    //rockets with the same family should be in the same group
+    @DisplayName("should throw exceptions when pass same family rockets in different group to addRocketToGroup function")
     @Test
-    public void shouldThrowExceptionWhenSameSeriesRocketsInDifferentGroup(){
+    public void shouldThrowExceptionWhenSameFamilyRocketsInDifferentGroup(){
         target = new LaunchServiceProvider(name, yearFounded,country);
         Rocket rocket1 = new Rocket("a", "a", "a");
-        rocket1.setSeries("1");
+        rocket1.setFamily("1");
         Rocket rocket2 = new Rocket("b", "b", "b");
-        rocket2.setSeries("2");
+        rocket2.setFamily("2");
         Rocket rocket3 = new  Rocket("c", "c", "c");
-        rocket3.setSeries("1");
+        rocket3.setFamily("1");
         target.addRocketToGroup(rocket1);
         target.addRocketToGroup(rocket2);
         target.addRocketToGroup(rocket2);
