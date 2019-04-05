@@ -23,8 +23,7 @@ public class  Rocket extends Entity {
     private String massToGTO;
 
     private String massToOther;
-
-//    private ArrayList<Rocket> rockets = new ArrayList<Rocket>();
+    
 
     /**
      * All parameters shouldn't be null.
@@ -45,9 +44,6 @@ public class  Rocket extends Entity {
     }
 
 
-
-//    Rocket r = new Rocket("1", "2", "3");
-//    putAllRocketsTogether(r, rockets);
 
     public String getName() {
         return name;
@@ -136,8 +132,5 @@ public class  Rocket extends Entity {
                 '}';
     }
 
-//    public void putAllRocketsTogether(Rocket o, ArrayList<Rocket> rockets){
-//        rockets.add(o);
-//    }
 
 }
