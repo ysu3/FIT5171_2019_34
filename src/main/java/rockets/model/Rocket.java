@@ -23,7 +23,7 @@ public class  Rocket extends Entity {
     private String massToGTO;
 
     private String massToOther;
-    
+
 
     /**
      * All parameters shouldn't be null.
