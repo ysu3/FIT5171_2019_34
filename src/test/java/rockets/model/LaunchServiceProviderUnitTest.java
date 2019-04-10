@@ -18,10 +18,11 @@ public class LaunchServiceProviderUnitTest {
     private String nullName;
     private int minusYearFounded;
     private String nullCountry;
+    private LaunchServiceProvider lsp;
 
     @BeforeEach
     public void setUp() {
-
+        lsp = new LaunchServiceProvider("ULA", 1990, "USA");
         this.nullName = null;
         this.minusYearFounded = -1;
         this.nullCountry = null;
@@ -66,11 +67,11 @@ public class LaunchServiceProviderUnitTest {
     @Test
     public void shouldThrowExceptionWhenSameFamilyRocketsInDifferentGroup(){
         target = new LaunchServiceProvider(name, yearFounded,country);
-        Rocket rocket1 = new Rocket("a", "a", "a");
+        Rocket rocket1 = new Rocket("a", "a", lsp);
         rocket1.setFamily("1");
-        Rocket rocket2 = new Rocket("b", "b", "b");
+        Rocket rocket2 = new Rocket("b", "b", lsp);
         rocket2.setFamily("2");
-        Rocket rocket3 = new  Rocket("c", "c", "c");
+        Rocket rocket3 = new  Rocket("c", "c", lsp);
         rocket3.setFamily("1");
         target.addRocketToGroup(rocket1);
         target.addRocketToGroup(rocket2);

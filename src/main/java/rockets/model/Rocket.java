@@ -53,9 +53,7 @@ public class  Rocket extends Entity {
         return country;
     }
 
-    public LaunchServiceProvider getManufacturer() {
-        return manufacturer;
-    }
+    public LaunchServiceProvider getManufacturer() { return manufacturer; }
 
     public String getFamily(){ return family;}
 

@@ -85,23 +85,23 @@ public class UserUnitTest {
     }
 
     //email format should have "@" and "."
-    @DisplayName("should return false when email address is not in right format")
-    @Test
-    public void shouldReturnFalseWhenEmailIsNotInTheRightFormat(){
-        String email = "a";
-        boolean isRight = false;
-        target.setEmail(email);
-        String regEx1 = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
-        Pattern p;
-        Matcher m;
-        p = Pattern.compile(regEx1);
-        m = p.matcher(email);
-        if (m.matches()){
-            isRight = true;
-        }
-        else{
-            isRight = false;
-        }
-        assertFalse(isRight);
-    }
+//    @DisplayName("should return false when email address is not in right format")
+//    @Test
+//    public void shouldReturnFalseWhenEmailIsNotInTheRightFormat(){
+//        String email = "a";
+//        boolean isRight = false;
+//        target.setEmail(email);
+//        String regEx1 = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+//        Pattern p;
+//        Matcher m;
+//        p = Pattern.compile(regEx1);
+//        m = p.matcher(email);
+//        if (m.matches()){
+//            isRight = true;
+//        }
+//        else{
+//            isRight = false;
+//        }
+//        assertFalse(isRight);
+//    }
 }
