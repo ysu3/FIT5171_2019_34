@@ -14,10 +14,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class RocketTest {
 
     private Rocket target;
+    private LaunchServiceProvider lsp;
 
     @BeforeEach
     public void setUp() {
-        target = new Rocket("1", "2","3");
+        lsp = new LaunchServiceProvider("ULA", 1990, "USA");
+        target = new Rocket("1", "2",lsp);
     }
 
 

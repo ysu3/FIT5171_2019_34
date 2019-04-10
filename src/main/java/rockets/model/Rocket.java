@@ -10,7 +10,7 @@ public class  Rocket extends Entity {
 
     private String country;
 
-    private String manufacturer;
+    private LaunchServiceProvider manufacturer;
 
     private String family;
 
@@ -32,7 +32,7 @@ public class  Rocket extends Entity {
      * @param country
      * @param manufacturer
      */
-    public Rocket(String name, String country, String manufacturer) {
+    public Rocket(String name, String country, LaunchServiceProvider manufacturer) {
         notNull(name);
         notNull(country);
         notNull(manufacturer);
@@ -53,7 +53,7 @@ public class  Rocket extends Entity {
         return country;
     }
 
-    public String getManufacturer() {
+    public LaunchServiceProvider getManufacturer() {
         return manufacturer;
     }
 
