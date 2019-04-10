@@ -7,20 +7,24 @@ import rockets.model.Launch;
 import rockets.model.LaunchServiceProvider;
 import rockets.model.Rocket;
 
+import javax.swing.text.html.HTMLDocument;
 import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static java.util.Spliterators.iterator;
 
 public class RocketMiner {
     private static Logger logger = LoggerFactory.getLogger(RocketMiner.class);
 
     private DAO dao;
 
+    private Set<Rocket> listRockert;
+
     public RocketMiner(DAO dao) {
         this.dao = dao;
     }
+
 
     /**
      * TODO: to be implemented & tested!
@@ -30,7 +34,10 @@ public class RocketMiner {
      * @return the list of k most active rockets.
      */
     public List<Rocket> mostLaunchedRockets(int k) {
-        return null;
+       logger.info("find most active"+ k +"rockets");
+       Collection<Rocket> rocketList = dao.loadAll(Rocket.class);
+       Comparator<Rocket> rocketComparator =(a,b)-> -a.getLaunchOutcome().compareTo(Launch.LaunchOutcome.SUCCESSFUL);
+       return rocketList.stream().sorted(rocketComparator).limit(k).collect(Collectors.toList());
     }
 
     /**
@@ -43,6 +50,28 @@ public class RocketMiner {
      * @return the list of k most reliable ones.
      */
     public List<LaunchServiceProvider> mostReliableLaunchServiceProviders(int k) {
+        logger.info("find most reliable launch service "+ k +"");
+        Collection<Rocket> rocketList = dao.loadAll(Rocket.class);
+        Collection<Rocket> topRockets = mostLaunchedRockets(k);
+        listRockert = new HashSet();
+        Iterator iterator = rocketList.iterator();
+        Iterator iteratorR = topRockets.iterator();
+        while (iterator.hasNext())
+        {
+               Rocket newRocket = (Rocket) iterator.next();
+               while (iteratorR.hasNext()){
+                   Rocket topRocket= (Rocket) iterator.next();
+                   if(newRocket.getManufacturer().equals(topRocket.getManufacturer()) && newRocket.equals(newRocket)){
+                       listRockert.add(newRocket);
+                   }
+               }
+        }
+        for (Rocket rockets :listRockert)
+        {
+            int numberRocket = Collections.frequency(listRockert,rockets);
+            int numberk = Collections.frequency(topRockets,rockets);
+            float persent = (float)(numberk*100/numberRocket);
+        }
         return null;
     }
 
@@ -95,4 +124,8 @@ public class RocketMiner {
     public List<LaunchServiceProvider> highestRevenueLaunchServiceProviders(int k, int year) {
         return null;
     }
+   
+     
+     
+
 }

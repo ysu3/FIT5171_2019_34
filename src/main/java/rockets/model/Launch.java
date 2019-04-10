@@ -1,9 +1,12 @@
 package rockets.model;
 
+import org.neo4j.ogm.annotation.NodeEntity;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Set;
+
 
 public class Launch extends Entity {
     public enum LaunchOutcome {

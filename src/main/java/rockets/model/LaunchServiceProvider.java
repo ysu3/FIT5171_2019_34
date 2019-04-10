@@ -1,9 +1,11 @@
 package rockets.model;
 
 import com.google.common.collect.Sets;
+import org.neo4j.ogm.annotation.NodeEntity;
 
 import java.util.Objects;
 import java.util.Set;
+
 
 public class LaunchServiceProvider extends Entity {
     private String name;

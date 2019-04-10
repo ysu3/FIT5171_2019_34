@@ -8,5 +8,18 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="main" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.junit.jupiter:junit-jupiter-api:5.3.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.junit.jupiter:junit-jupiter-params:5.3.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.google.guava:guava:24.0-jre" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.slf4j:slf4j-api:1.8.0-alpha2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.mockito:mockito-core:2.16.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.neo4j:neo4j-ogm-core:3.1.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.neo4j:neo4j-graphdb-api:3.3.4" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.neo4j.test:neo4j-harness:3.3.4" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.neo4j:neo4j-ogm-embedded-driver:3.0.2" level="project" />
+  </component>
+  <component name="sonarModuleSettings">
+    <option name="localAnalysisScripName" value="&lt;PROJECT&gt;" />
+    <option name="serverName" value="&lt;PROJECT&gt;" />
   </component>
 </module>

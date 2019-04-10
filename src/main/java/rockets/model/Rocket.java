@@ -1,9 +1,12 @@
 package rockets.model;
 
+import org.neo4j.ogm.annotation.NodeEntity;
+
 import java.util.Objects;
 
 import static org.apache.commons.lang3.Validate.notEmpty;
 import static org.apache.commons.lang3.Validate.notNull;
+
 
 public class Rocket extends Entity {
     private String name;
@@ -17,6 +20,8 @@ public class Rocket extends Entity {
     private String massToGTO;
 
     private String massToOther;
+
+    private Launch.LaunchOutcome launchOutcome;
 
     /**
      * All parameters shouldn't be null.
@@ -98,5 +103,13 @@ public class Rocket extends Entity {
                 ", massToGTO='" + massToGTO + '\'' +
                 ", massToOther='" + massToOther + '\'' +
                 '}';
+    }
+
+    public Launch.LaunchOutcome getLaunchOutcome() {
+        return launchOutcome;
+    }
+
+    public void setLaunchOutcome(Launch.LaunchOutcome launchOutcome) {
+        this.launchOutcome = launchOutcome;
     }
 }
