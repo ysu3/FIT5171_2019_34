@@ -1,12 +1,11 @@
 package rockets.model;
 
-import org.neo4j.ogm.annotation.NodeEntity;
-
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import static org.apache.commons.lang3.Validate.notEmpty;
 import static org.apache.commons.lang3.Validate.notNull;
-
 
 public class Rocket extends Entity {
     private String name;
@@ -21,7 +20,14 @@ public class Rocket extends Entity {
 
     private String massToOther;
 
-    private Launch.LaunchOutcome launchOutcome;
+    private Launch LaunchOutcome;
+
+    private String family;
+
+    private String series;
+
+    private String rocketCode;
+
 
     /**
      * All parameters shouldn't be null.
@@ -36,10 +42,11 @@ public class Rocket extends Entity {
         notNull(country);
         notEmpty(country,"Country cannot be empty.");
         notNull(manufacturer);
-
+        //notNull(launchOutcome);
         this.name = name;
         this.country = country;
         this.manufacturer = manufacturer;
+        //this.LaunchOutcome = launchOutcome;
     }
 
     public String getName() {
@@ -105,11 +112,34 @@ public class Rocket extends Entity {
                 '}';
     }
 
-    public Launch.LaunchOutcome getLaunchOutcome() {
-        return launchOutcome;
+    public Launch getLaunchOutcome() {
+        return LaunchOutcome;
     }
 
-    public void setLaunchOutcome(Launch.LaunchOutcome launchOutcome) {
-        this.launchOutcome = launchOutcome;
+    public void setLaunchOutcome(Launch launchOutcome) {
+        LaunchOutcome = launchOutcome;
     }
+
+    public String getRocketCode() {
+        return rocketCode;
+    }
+
+    public void setRocketCode(String rocketCode) {
+        this.rocketCode = rocketCode;
+    }
+
+    public String getSeries() {
+        return series;
+    }
+
+    public void setSeries(String series) {
+        this.series = series;
+    }
+
+    public String getFamily() {
+        return family;
+    }
+
+    public void setFamily(String family) { this.family = family;}
+
 }

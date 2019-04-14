@@ -7,8 +7,6 @@ import rockets.model.Launch;
 import rockets.model.LaunchServiceProvider;
 import rockets.model.Rocket;
 
-import javax.swing.text.html.HTMLDocument;
-import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -20,6 +18,7 @@ public class RocketMiner {
     private DAO dao;
 
     private Set<Rocket> listRockert;
+
 
     public RocketMiner(DAO dao) {
         this.dao = dao;
@@ -33,11 +32,23 @@ public class RocketMiner {
      * @param k the number of rockets to be returned.
      * @return the list of k most active rockets.
      */
-    public List<Rocket> mostLaunchedRockets(int k) {
+    public List<Map.Entry<String, Integer>> mostLaunchedRockets(int k) {
        logger.info("find most active"+ k +"rockets");
        Collection<Rocket> rocketList = dao.loadAll(Rocket.class);
-       Comparator<Rocket> rocketComparator =(a,b)-> -a.getLaunchOutcome().compareTo(Launch.LaunchOutcome.SUCCESSFUL);
-       return rocketList.stream().sorted(rocketComparator).limit(k).collect(Collectors.toList());
+        Map<String, Integer> mapnumber = new HashMap<>();
+        Iterator<Rocket> rocket = rocketList.iterator();
+        int number = 0;
+        while (!rocketList.isEmpty()&& rocketList.iterator().hasNext()) {
+            Rocket newrocket = rocket.next();
+            if (newrocket.getLaunchOutcome().equals("SUCCESSFUL") && newrocket.getFamily().contains(newrocket.getFamily())) {
+                mapnumber.put(newrocket.getFamily(), number + 1);//add the rocket into different group. grouping by the family.
+            } else {
+                mapnumber.put(newrocket.getFamily(), number);
+            }
+        }
+        Set<Map.Entry<String, Integer>> maplist = mapnumber.entrySet();
+       Comparator<Map.Entry<String, Integer>> integerComparator = (a, b)-> -a.getValue().compareTo(b.getValue());
+       return maplist.stream().sorted(integerComparator).limit(k).collect(Collectors.toList());
     }
 
     /**
@@ -51,28 +62,22 @@ public class RocketMiner {
      */
     public List<LaunchServiceProvider> mostReliableLaunchServiceProviders(int k) {
         logger.info("find most reliable launch service "+ k +"");
-        Collection<Rocket> rocketList = dao.loadAll(Rocket.class);
-        Collection<Rocket> topRockets = mostLaunchedRockets(k);
-        listRockert = new HashSet();
-        Iterator iterator = rocketList.iterator();
-        Iterator iteratorR = topRockets.iterator();
-        while (iterator.hasNext())
-        {
-               Rocket newRocket = (Rocket) iterator.next();
-               while (iteratorR.hasNext()){
-                   Rocket topRocket= (Rocket) iterator.next();
-                   if(newRocket.getManufacturer().equals(topRocket.getManufacturer()) && newRocket.equals(newRocket)){
-                       listRockert.add(newRocket);
-                   }
-               }
+        Collection<LaunchServiceProvider> providersList = dao.loadAll(LaunchServiceProvider.class);
+        Iterator iteratorTop = mostExpensiveLaunches(k).iterator(); // traversal the top active collection
+        ArrayList<Rocket>  rockets = null; // create a new Set for to story the rocket which was launched successful.
+        while (!providersList.isEmpty() && providersList.iterator().hasNext()){ // if the provider List is not empty
+             LaunchServiceProvider launchServiceProvider = providersList.iterator().next();  // get the provide object.
+             int numberRocket = launchServiceProvider.getRocketmap().size(); // the total numbers of rocket for each provide.
+             while (launchServiceProvider.getRockets().iterator().hasNext()) {
+                 Rocket rocket = launchServiceProvider.getRockets().iterator().next();// traversal the rocket collection for each provide.
+                 if(rocket.getLaunchOutcome().equals("SUCCESSFUL")) // select every rocket which was launched successful.
+                     rockets.add(rocket);  // add the launched successful rocket in the new collection.
+                     int number = rockets.size();  // get the new collection size / the number of the rocket.
+                     double ratio = number/numberRocket;
+                     launchServiceProvider.setRatio(ratio);//add the the ratio for each provide.
+             }
         }
-        for (Rocket rockets :listRockert)
-        {
-            int numberRocket = Collections.frequency(listRockert,rockets);
-            int numberk = Collections.frequency(topRockets,rockets);
-            float persent = (float)(numberk*100/numberRocket);
-        }
-        return null;
+        return providersList.stream().sorted(Comparator.comparingDouble(LaunchServiceProvider::getRatio)).limit(k).collect(Collectors.toList());
     }
 
     /**

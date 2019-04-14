@@ -3,6 +3,7 @@ package rockets.model;
 import com.google.common.collect.Sets;
 import org.neo4j.ogm.annotation.NodeEntity;
 
+import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
 
@@ -17,6 +18,10 @@ public class LaunchServiceProvider extends Entity {
     private String headquarters;
 
     private Set<Rocket> rockets;
+
+    private Collection<Rocket> rocketmap;
+
+    private double ratio;
 
     public LaunchServiceProvider(String name, int yearFounded, String country) {
         this.name = name;
@@ -68,5 +73,21 @@ public class LaunchServiceProvider extends Entity {
     public int hashCode() {
 
         return Objects.hash(name, yearFounded, country);
+    }
+
+    public Collection<Rocket> getRocketmap() {
+        return rocketmap;
+    }
+
+    public void setRocketmap(Collection<Rocket> rocketmap) {
+        this.rocketmap = rocketmap;
+    }
+
+    public void setRatio(double ratio) {
+        this.ratio = ratio;
+    }
+
+    public double getRatio() {
+        return ratio;
     }
 }
