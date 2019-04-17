@@ -48,6 +48,16 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/rockets/model/User.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/rockets/dataaccess/neo4j/Neo4jDAOUnitTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
       </map>
     </option>
   </component>

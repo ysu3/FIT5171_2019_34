@@ -20,7 +20,9 @@ public class Rocket extends Entity {
 
     private String massToOther;
 
-    private Launch LaunchOutcome;
+    //private Launch LaunchOutcome;
+
+    private Launch launch;
 
     private String family;
 
@@ -112,13 +114,9 @@ public class Rocket extends Entity {
                 '}';
     }
 
-    public Launch getLaunchOutcome() {
-        return LaunchOutcome;
-    }
+    //public Launch getLaunchOutcome() {return LaunchOutcome;}
 
-    public void setLaunchOutcome(Launch launchOutcome) {
-        LaunchOutcome = launchOutcome;
-    }
+    //public void setLaunchOutcome(Launch launchOutcome) {LaunchOutcome = launchOutcome;}
 
     public String getRocketCode() {
         return rocketCode;
@@ -142,4 +140,11 @@ public class Rocket extends Entity {
 
     public void setFamily(String family) { this.family = family;}
 
+    public Launch getLaunch() {
+        return launch;
+    }
+
+    public void setLaunch(Launch launch) {
+        this.launch = launch;
+    }
 }

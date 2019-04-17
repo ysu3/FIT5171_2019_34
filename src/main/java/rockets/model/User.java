@@ -1,6 +1,8 @@
 package rockets.model;
 
 import java.util.Objects;
+import java.util.Set;
+
 import static org.apache.commons.lang3.Validate.*;
 
 import static org.apache.commons.lang3.Validate.notBlank;
@@ -13,6 +15,8 @@ public class User extends Entity {
     private String email;
 
     private String password;
+
+    private Set<Rocket> rocketSet;
 
     public String getFirstName() {
         return firstName;
@@ -82,5 +86,13 @@ public class User extends Entity {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 '}';
+    }
+
+    public Set<Rocket> getRocketSet() {
+        return rocketSet;
+    }
+
+    public void setRocketSet(Set<Rocket> rocketSet) {
+        this.rocketSet = rocketSet;
     }
 }
