@@ -1,0 +1,9 @@
+rockets\mining\RocketMiner.class
+rockets\model\User.class
+rockets\dataaccess\neo4j\Neo4jDAO.class
+rockets\model\Launch$LaunchOutcome.class
+rockets\model\LaunchServiceProvider.class
+rockets\model\Rocket.class
+rockets\dataaccess\DAO.class
+rockets\model\Entity.class
+rockets\model\Launch.class
