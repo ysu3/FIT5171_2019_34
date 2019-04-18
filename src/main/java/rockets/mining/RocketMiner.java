@@ -8,8 +8,10 @@ import rockets.model.LaunchServiceProvider;
 import rockets.model.Rocket;
 
 import java.util.*;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import static java.util.Map.Entry.comparingByValue;
 import static java.util.Spliterators.iterator;
 
 public class RocketMiner {
@@ -29,23 +31,48 @@ public class RocketMiner {
      * @param k the number of rockets to be returned.
      * @return the list of k most active rockets.
      */
+    /**  //The top-K most active rockets grouping by family.
     public List<Map.Entry<String, Integer>> mostLaunchedRockets(int k) {
-       logger.info("find most active"+ k +"rockets");
-       Collection<Rocket> rocketList = dao.loadAll(Rocket.class); //get the Collection for all the rockets;
+     public List<Rocket> mostLaunchedRockets(int k) {
+        logger.info("find most active"+ k +"rockets");
+        Collection<Rocket> rocketList = dao.loadAll(Rocket.class); //get the Collection for all the rockets;
         Map<String, Integer> mapnumber = new HashMap<>(); //create a Map for the rocket and grouping by the family
-        Iterator<Rocket> rocket = rocketList.iterator();
+        Iterator<Rocket> rockets = rocketList.iterator();
         int number = 0;
         while (!rocketList.isEmpty()&& rocketList.iterator().hasNext()) {
-            Rocket newrocket = rocket.next();
-            if (newrocket.getLaunch().getLaunchOutcome().equals("SUCCESSFUL") && newrocket.getFamily().contains(newrocket.getFamily())) { // get the rocket which was launched and successful
-                mapnumber.put(newrocket.getFamily(), number + 1);//add the rocket into different group. grouping by the family.
+            Rocket rocket = rockets.next();
+            if (rocket.getLaunch().getLaunchOutcome().equals("SUCCESSFUL") && rocket.getFamily().contains(rocket.getFamily())) { // get the rocket which was launched and successful
+                mapnumber.put(rocket.getFamily(), number + 1);//add the rocket into different group. grouping by the family.
             } else {
-                mapnumber.put(newrocket.getFamily(), number); // if the rocket not in the Map the number is 0
+                mapnumber.put(rocket.getFamily(), number); // if the rocket not in the Map the number is 0
             }
         }
-        Set<Map.Entry<String, Integer>> maplist = mapnumber.entrySet(); // change the Map into a Set collection,
-       Comparator<Map.Entry<String, Integer>> integerComparator = (a, b)-> -a.getValue().compareTo(b.getValue());
-       return maplist.stream().sorted(integerComparator).limit(k).collect(Collectors.toList());
+        Comparator<Map.Entry<String,Integer>> comparator =Comparator.comparing(Map.Entry<String,Integer>::getValue);
+                //(a,b)->a.getValue().compareTo(b.getValue());
+        return mapnumber.entrySet().stream().sorted(comparator).limit(k).collect(Collectors.toList());
+
+        //return mapnumber.entrySet().stream().sorted(comparator).limit(k).map(entry -> entry.getKey()).collect(Collectors.toList());
+    }
+    */
+    //The top-K most active rockets without grouping by family.
+    public List<Rocket> mostLaunchedRockets(int k) {
+        logger.info("find most active" + k + "rockets");
+        Collection<Rocket> rocketList = dao.loadAll(Rocket.class); //get the Collection for all the rockets;
+        Map<Rocket,Integer> rocketHashMap = new HashMap<>(); //create a Map for the rocket and grouping by the family
+        Iterator<Rocket> rockets = rocketList.iterator();
+        int number = 0;
+        while (!rocketList.isEmpty() && rocketList.iterator().hasNext()) {
+            Rocket rocket = rockets.next();
+            if (rocket.getLaunch().getLaunchOutcome().equals("SUCCESSFUL") && rocket.getFamily().contains(rocket.getFamily())) { // get the rocket which was launched and successful
+                rocketHashMap.put(rocket,+1);
+            } else {
+                rocketHashMap.put(rocket,number);
+            }
+        }
+        Comparator<Map.Entry<Rocket,Integer>> comparator = Comparator.comparing(Map.Entry<Rocket,Integer>::getValue);
+        return rocketHashMap.entrySet().stream().sorted(comparator).limit(k).map(entry -> entry.getKey()).collect(Collectors.toList());
+
+                //filter(entry->entry.getValue()>= k).map(entry->entry.getKey()).collect(Collectors.toList());
     }
 
     /**
@@ -60,21 +87,30 @@ public class RocketMiner {
     public List<LaunchServiceProvider> mostReliableLaunchServiceProviders(int k) {
         logger.info("find most reliable launch service "+ k +"");
         Collection<LaunchServiceProvider> providersList = dao.loadAll(LaunchServiceProvider.class);
-        ArrayList<Rocket>  rockets = null; // create a new Set for to story the rocket which was launched successful.
-        while (!providersList.isEmpty() && providersList.iterator().hasNext()){ // if the provider List is not empty
-             LaunchServiceProvider launchServiceProvider = providersList.iterator().next();  // get the provide object.
-             int numberRocket = launchServiceProvider.getRocketmap().size(); // the total numbers of rocket for each provide.
+        List<Rocket> topRocket = mostLaunchedRockets(k); //get the top K Rocket which is launched successful.
+        Map<LaunchServiceProvider, Double> percentageTopLSP = new HashMap<>(); // Create a Map to store  the launchServiceProvider(LSP)
+        int number = 0;
+        double ratio =0.0;
+        while (!providersList.isEmpty() && providersList.iterator().hasNext()){ // if the provider List is not empty and has next.
+            LaunchServiceProvider launchServiceProvider = providersList.iterator().next();  // traverse the LSP collection and get the provide object.
+            int numberRocket = launchServiceProvider.getRockets().size(); // the total numbers of rocket for each provide.
              while (launchServiceProvider.getRockets().iterator().hasNext()) {
                  Rocket rocket = launchServiceProvider.getRockets().iterator().next();// traversal the rocket collection for each provide.
-                 if(rocket.getLaunch().getLaunchOutcome().equals("SUCCESSFUL")) // select every rocket which was launched successful.
-                     rockets.add(rocket);  // add the launched successful rocket in the new collection.
-                     int number = rockets.size();  // get the new collection size / the number of the rocket.
-                     double ratio = number/numberRocket;
-                     launchServiceProvider.setRatio(ratio);//add the the ratio for each provide.
+                 if(topRocket.contains(rocket)) // select every rocket which was launched successful.
+                     //rockets.add(rocket);  // add the launched successful rocket in the new collection.
+                     number += 1;   // get the new collection size / the number of the rocket.
+                     //launchServiceProvider.setRatio(ratio);//add the the ratio for each provide.
              }
+            ratio = number/numberRocket;
+            percentageTopLSP.put(launchServiceProvider,ratio);
         }
-        return providersList.stream().sorted(Comparator.comparingDouble(LaunchServiceProvider::getRatio)).limit(k).collect(Collectors.toList());
+        //Comparator<Map.Entry<LaunchServiceProvider,Double>> comparator = Comparator.comparing(Map.Entry<LaunchServiceProvider,Double>::getValue);
+        return percentageTopLSP.entrySet().stream().sorted(Comparator.comparing(Map.Entry<LaunchServiceProvider,Double>::getValue)).limit(k)
+                .map(entry->entry.getKey())
+                .collect(Collectors.toList());
     }
+
+
 
     /**
      * <p>

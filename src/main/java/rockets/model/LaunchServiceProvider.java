@@ -19,7 +19,7 @@ public class LaunchServiceProvider extends Entity {
 
     private Set<Rocket> rockets;
 
-    private Collection<Rocket> rocketmap;
+    //private Collection<Rocket> rocketmap;
 
     private double ratio;
 
@@ -75,13 +75,9 @@ public class LaunchServiceProvider extends Entity {
         return Objects.hash(name, yearFounded, country);
     }
 
-    public Collection<Rocket> getRocketmap() {
-        return rocketmap;
-    }
+    //public Collection<Rocket> getRocketmap() {return rocketmap;}
 
-    public void setRocketmap(Collection<Rocket> rocketmap) {
-        this.rocketmap = rocketmap;
-    }
+   // public void setRocketmap(Collection<Rocket> rocketmap) {this.rocketmap = rocketmap;}
 
     public void setRatio(double ratio) {
         this.ratio = ratio;
