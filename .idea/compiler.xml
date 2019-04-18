@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="FIT5171" />
+        <module name="fit5171_2019_34" />
+        <module name="fit5171_2019_34-kaixiang" />
+        <module name="rockets" />
+      </profile>
+    </annotationProcessing>
+  </component>
+</project>

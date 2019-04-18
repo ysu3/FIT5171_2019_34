@@ -18,6 +18,7 @@ public class User extends Entity {
 
     private Set<Rocket> rocketSet;
 
+
     public String getFirstName() {
         return firstName;
     }
@@ -56,8 +57,10 @@ public class User extends Entity {
     }
 
     public void setPassword(String password) {
-        //password not empty validation
-        notEmpty(password,"password can not be empty!");
+        notNull(password, "password cannot be null or empty");
+        // Check the password format
+        String passwordFormat = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$";
+        matchesPattern(password,passwordFormat,"password must contain 8 - 16 characters and composed by number and characters");
         this.password = password;
     }
 
