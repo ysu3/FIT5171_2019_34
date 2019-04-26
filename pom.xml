@@ -107,7 +107,16 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+
+
                 <version>3.7.0</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.pitest</groupId>
+                        <artifactId>pitest-junit5-plugin</artifactId>
+                        <version>0.7</version>
+                    </dependency>
+                </dependencies>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
@@ -175,6 +184,10 @@
                         <version>0.7</version>
                     </dependency>
                 </dependencies>
+
+
+
+
                 <configuration>
                     <targetClasses>
                         <param>rockets.model.*</param>
