@@ -22,7 +22,6 @@ public class RocketMiner {
     private static Logger logger = LoggerFactory.getLogger(RocketMiner.class);
 
     private DAO dao;
-    private ArrayList<String> countriesWithLSPThisYear;
 
     public RocketMiner(DAO dao) {
         this.dao = dao;
@@ -98,22 +97,12 @@ public class RocketMiner {
      * @param year the year in request
      * @return the list of k launch service providers who has the highest sales revenue.
      */
-    public List<LaunchServiceProvider> highestRevenueLaunchServiceProviders(List<LaunchServiceProvider> lsps, int k, int year) {
-        for(int i=0; i<k; i++){
-            if(lsps.get(i).getYearFounded() == year){
-                countriesWithLSPThisYear.add(lsps.get(i).getCountry());
-            }
-        }
-        Collections.sort(countriesWithLSPThisYear);
-        for(int i=0; i<k; i++){
-            if(lsps.get(i).getCountry() == countriesWithLSPThisYear.get(0)){
-                LaunchServiceProvider highestRevenueLaunchServiceProvider = new LaunchServiceProvider(lsps.get(i).getName(), lsps.get(i).getYearFounded(), lsps.get(i).getCountry());
-                lsps.clear();
-                lsps.add(highestRevenueLaunchServiceProvider);
-            }
-        }
-        Set<LaunchServiceProvider> s = new LinkedHashSet<>(lsps);
+    public List<LaunchServiceProvider> highestRevenueLaunchServiceProviders(int k, int year) {
 
-        return lsps;
+        logger.info("find highest revenue " + k + " LaunchServiceProvider in " + year);
+        Collection<LaunchServiceProvider> lsps = dao.loadAll(LaunchServiceProvider.class);
+        Comparator<LaunchServiceProvider> lspsRevenueComparator = (a, b) -> -a.getRevenue().compareTo(b.getRevenue());
+        return lsps.stream().sorted(lspsRevenueComparator).limit(k).collect(Collectors.toList());
+
     }
 }

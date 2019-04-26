@@ -4,6 +4,9 @@ import com.google.common.collect.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.CsvSource;
+
+import org.neo4j.server.plugins.Parameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rockets.dataaccess.DAO;
@@ -18,6 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -52,6 +56,9 @@ public class RocketMinerUnitTest {
         // month of each launch
         int[] months = new int[]{1, 6, 4, 3, 4, 11, 6, 5, 12, 5};
 
+        // year of each launch service provider
+        int[] years = new int[]{1, 6, 4, 3, 4, 11, 6, 5, 12, 5};
+
         // index of rocket of each launch
         int[] rocketIndex = new int[]{0, 0, 0, 0, 1, 1, 1, 2, 2, 3};
 
@@ -66,6 +73,14 @@ public class RocketMinerUnitTest {
             spy(l);
             return l;
         }).collect(Collectors.toList());
+
+        lsps = IntStream.range(0, 10).mapToObj(i -> {
+            logger.info("create " + i + " launch service provider in year: " + years[i]);
+            LaunchServiceProvider lsp = new LaunchServiceProvider("ULA", 1990, "USA");
+            lsp.setRevenue("20");
+            spy(lsp);
+            return lsp;
+        }).collect(Collectors.toList());
     }
 
 
@@ -79,6 +94,20 @@ public class RocketMinerUnitTest {
         assertEquals(k, loadedLaunches.size());
         assertEquals(sortedLaunches.subList(0, k), loadedLaunches);
     }
+
+    @ParameterizedTest
+//    @ValueSource(ints = {1, 2, 3})
+//    @MethodSource("ints")
+    @CsvSource({"1,2009", "2,2009","3,2009"})
+    public void shouldReturnHighestRevenueLaunchServiceProviders(int k, int year) {
+        when(dao.loadAll(LaunchServiceProvider.class)).thenReturn(lsps);
+        List<LaunchServiceProvider> sortedLsps = new ArrayList<>(lsps);
+        sortedLsps.sort((a, b) -> -a.getRevenue().compareTo(b.getRevenue()));
+        List<LaunchServiceProvider> loadedLaunchServiceProviders = miner.highestRevenueLaunchServiceProviders(k, year);
+        assertEquals(k, loadedLaunchServiceProviders.size());
+        assertEquals(sortedLsps.subList(0, k), loadedLaunchServiceProviders);
+    }
+
 
 
 }

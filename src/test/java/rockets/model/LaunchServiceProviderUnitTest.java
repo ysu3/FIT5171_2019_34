@@ -55,11 +55,20 @@ public class LaunchServiceProviderUnitTest {
     //headquarters should not be null
     @DisplayName("should throw exceptions when pass a null headquarters to setHeadquarters function")
     @Test
-    public void shouldThrowExceptionWhenSetPasswordToNull() {
+    public void shouldThrowExceptionWhenSetHeadquartersToNull() {
         target = new LaunchServiceProvider(name, yearFounded,country);
         NullPointerException exception = assertThrows(NullPointerException.class,
                 () -> target.setHeadquarters(null));
         assertEquals("headquarters cannot be null or empty", exception.getMessage());
+    }
+
+    @DisplayName("should throw exceptions when pass a null revenue to setRevenue function")
+    @Test
+    public void shouldThrowExceptionWhenSetRevenueToNull() {
+        target = new LaunchServiceProvider(name, yearFounded,country);
+        NullPointerException exception = assertThrows(NullPointerException.class,
+                () -> target.setRevenue(null));
+        assertEquals("Revenue cannot be null or empty", exception.getMessage());
     }
 
     //rockets with the same family should be in the same group
