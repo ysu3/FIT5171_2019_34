@@ -109,7 +109,9 @@ public class RocketMinerUnitTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"1,1990", "2,1990","3,1990"})
+//    @ValueSource(ints = {1, 2, 3})
+//    @MethodSource("ints")
+    @CsvSource({"1,2009", "2,2009","3,2009"})
     public void shouldReturnHighestRevenueLaunchServiceProviders(int k, int year) {
         when(dao.loadAll(LaunchServiceProvider.class)).thenReturn(lsps);
         List<LaunchServiceProvider> sortedLsps = new ArrayList<>(lsps);
@@ -118,4 +120,7 @@ public class RocketMinerUnitTest {
         assertEquals(k, loadedLaunchServiceProviders.size());
         assertEquals(sortedLsps.subList(0, k), loadedLaunchServiceProviders);
     }
+
+
+
 }
