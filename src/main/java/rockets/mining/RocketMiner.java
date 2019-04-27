@@ -142,8 +142,17 @@ public class RocketMiner {
 
         logger.info("find highest revenue " + k + " LaunchServiceProvider in " + year);
         Collection<LaunchServiceProvider> lsps = dao.loadAll(LaunchServiceProvider.class);
-        Comparator<LaunchServiceProvider> lspsRevenueComparator = (a, b) -> -a.getRevenue().compareTo(b.getRevenue());
-        return lsps.stream().sorted(lspsRevenueComparator).limit(k).collect(Collectors.toList());
+        ArrayList<LaunchServiceProvider> lspsArrayList = new ArrayList<LaunchServiceProvider>();
+        for(LaunchServiceProvider lsp:lsps){
+            if(lsp.getYearFounded() == year){
+                lspsArrayList.add(lsp);
+            }
+        }
+        LaunchServiceProvider[] lspsArray = lspsArrayList.toArray(new LaunchServiceProvider[lspsArrayList.size()]);
 
+
+        Comparator<LaunchServiceProvider> lspsRevenueComparator = (a,b) -> -a.getRevenue().compareTo(b.getRevenue());
+        return lsps.stream().sorted(lspsRevenueComparator).limit(k).collect(Collectors.toList());
     }
 }
+
