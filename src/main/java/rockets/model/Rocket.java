@@ -33,9 +33,9 @@ public class  Rocket extends Entity {
      * @param manufacturer
      */
     public Rocket(String name, String country, LaunchServiceProvider manufacturer) {
-        notNull(name);
-        notNull(country);
-        notNull(manufacturer);
+        notNull(name,"Name cannot be null");
+        notNull(country,"Country cannot be null");
+        notNull(manufacturer,"Manufacturer cannot be null");
 
         this.name = name;
         this.country = country;

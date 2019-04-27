@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="5171" />
+        <module name="fit5171_2019_34" />
         <module name="rockets" />
       </profile>
     </annotationProcessing>

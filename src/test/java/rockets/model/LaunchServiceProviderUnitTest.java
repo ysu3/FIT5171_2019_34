@@ -71,6 +71,16 @@ public class LaunchServiceProviderUnitTest {
         assertEquals("Revenue cannot be null or empty", exception.getMessage());
     }
 
+    @DisplayName("should throw exception when pass null to Rockets")
+    @Test
+    public void whenEnterNullrockets(){
+        target = new LaunchServiceProvider(name, yearFounded,country);
+        NullPointerException exception = assertThrows(NullPointerException.class,
+                () -> target.setRockets(null));
+        assertEquals("Rockets cannot be null or empty", exception.getMessage());
+
+    }
+
     //rockets with the same family should be in the same group
     @DisplayName("should throw exceptions when pass same family rockets in different group to addRocketToGroup function")
     @Test
