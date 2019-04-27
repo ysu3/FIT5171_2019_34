@@ -6,6 +6,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import org.neo4j.ogm.annotation.typeconversion.EnumString;
 import org.neo4j.server.plugins.Parameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 public class RocketMinerUnitTest {
@@ -107,6 +109,14 @@ public class RocketMinerUnitTest {
         assertEquals(k,loadedLaunches.size());
         assertEquals(sortedLaunches.subList(0, k), loadedLaunches);
     }
+
+    @ParameterizedTest
+    @ValueSource(strings = { "USA", "GTO", "Others" })
+    public void shouldReturnTheCountryWhichHasTheMostLaunchesOnThisOrbit(String orbit){
+        String country = miner.dominantCountry(orbit);
+        assertEquals(country, null);
+    }
+
 
     @ParameterizedTest
 //    @ValueSource(ints = {1, 2, 3})
