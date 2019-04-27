@@ -109,8 +109,13 @@ public class RocketMinerUnitTest {
     }
 
     @ParameterizedTest
-//    @ValueSource(ints = {1, 2, 3})
-//    @MethodSource("ints")
+    @ValueSource(strings = { "USA", "GTO", "Others" })
+    public void shouldReturnTheCountryWhichHasTheMostLaunchesOnThisOrbit(String orbit){
+        String country = miner.dominantCountry(orbit);
+        assertEquals(country, null);
+    }
+
+    @ParameterizedTest
     @CsvSource({"1,2009", "2,2009","3,2009"})
     public void shouldReturnHighestRevenueLaunchServiceProviders(int k, int year) {
         when(dao.loadAll(LaunchServiceProvider.class)).thenReturn(lsps);
