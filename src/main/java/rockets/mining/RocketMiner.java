@@ -73,7 +73,10 @@ public class RocketMiner {
      * @param orbit the orbit
      * @return the country who sends the most payload to the orbit
      */
-    public String dominantCountry(String orbit) { return null;}
+    public String dominantCountry(String orbit) {
+
+        return null;
+    }
 
     /**
      * TODO: to be implemented & tested!
@@ -84,7 +87,10 @@ public class RocketMiner {
      * @return the list of k most expensive launches.
      */
     public List<Launch> mostExpensiveLaunches(int k) {
-        return null;
+        logger.info("find the most" + k + "expensive launches");
+        Collection<Launch> mels = dao.loadAll(Launch.class);
+        Comparator<Launch> melsComparator = (a, b) -> -a.getPrice().compareTo(b.getPrice());
+        return mels.stream().sorted(melsComparator).limit(k).collect(Collectors.toList());
     }
 
     /**

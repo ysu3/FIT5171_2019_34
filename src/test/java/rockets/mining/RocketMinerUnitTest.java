@@ -15,6 +15,7 @@ import rockets.model.Launch;
 import rockets.model.LaunchServiceProvider;
 import rockets.model.Rocket;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -70,6 +71,7 @@ public class RocketMinerUnitTest {
             l.setLaunchVehicle(rockets.get(rocketIndex[i]));
             l.setLaunchSite("VAFB");
             l.setOrbit("LEO");
+            l.setPrice(new BigDecimal(1000));
             spy(l);
             return l;
         }).collect(Collectors.toList());
@@ -92,6 +94,17 @@ public class RocketMinerUnitTest {
         sortedLaunches.sort((a, b) -> -a.getLaunchDate().compareTo(b.getLaunchDate()));
         List<Launch> loadedLaunches = miner.mostRecentLaunches(k);
         assertEquals(k, loadedLaunches.size());
+        assertEquals(sortedLaunches.subList(0, k), loadedLaunches);
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 3})
+    public void shouldReturnTheMostExpensiveLaunches(int k){
+        when(dao.loadAll(Launch.class)).thenReturn(launches);
+        List<Launch> sortedLaunches = new ArrayList<>(launches);
+        sortedLaunches.sort((a, b) -> -a.getPrice().compareTo(b.getPrice()));
+        List<Launch> loadedLaunches = miner.mostExpensiveLaunches(k);
+        assertEquals(k,loadedLaunches.size());
         assertEquals(sortedLaunches.subList(0, k), loadedLaunches);
     }
 
