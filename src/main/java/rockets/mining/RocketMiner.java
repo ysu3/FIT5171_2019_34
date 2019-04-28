@@ -18,6 +18,8 @@ import java.util.Set;
 import java.util.LinkedHashSet;
 import java.util.*;
 
+import static rockets.model.Launch.LaunchOutcome.SUCCESSFUL;
+
 
 public class RocketMiner {
     private static Logger logger = LoggerFactory.getLogger(RocketMiner.class);
@@ -36,7 +38,41 @@ public class RocketMiner {
      * @return the list of k most active rockets.
      */
     public List<Rocket> mostLaunchedRockets(int k) {
-        return null;
+        logger.info("find most active  " + k + " rockets");
+        Collection<Rocket> rocketList = dao.loadAll(Rocket.class); //get the Collection for all the rockets;
+        Map<String,Integer> rocketHashMap = new HashMap<>(); //create a Map for the rocket and grouping by the family
+        List<Rocket> list = new ArrayList<>();
+        Iterator<Rocket> rockets = rocketList.iterator();
+        while (!rocketList.isEmpty() && rockets.hasNext()) {
+            Rocket rocket = rockets.next();
+            if (rocket.getLaunch().getLaunchOutcome()==SUCCESSFUL && rocketHashMap.containsKey(rocket.getName())){
+                rocketHashMap.put(rocket.getName(),rocketHashMap.get(rocket.getName())+1);
+            } else {
+                rocketHashMap.put(rocket.getName(),0);
+            }
+        }
+        List<Map.Entry<String, Integer>> RMLList = new ArrayList<>();
+        RMLList.addAll(rocketHashMap.entrySet());
+        Collections.sort(RMLList, new Comparator<Map.Entry<String, Integer>>() {
+            @Override
+            public int compare(Map.Entry<String, Integer> entry1, Map.Entry<String, Integer> entry2) {
+                return entry2.getValue().compareTo(entry1.getValue());
+            }
+        });
+        Iterator<Rocket> rocketIterator = rocketList.iterator();
+        for (int i =0;i<k ;i++)
+        {
+            Map.Entry<String, Integer> entry = RMLList.listIterator().next();
+            while (true)
+            {
+                if (!rocketIterator.hasNext()) break;
+                Rocket rocket = rocketIterator.next();
+                if(rocket.getName().contains(entry.getKey()) && list.size()< k){
+                    boolean add = list.add(rocket);
+                }
+            }
+        }
+        return list;
     }
 
     /**
@@ -49,7 +85,28 @@ public class RocketMiner {
      * @return the list of k most reliable ones.
      */
     public List<LaunchServiceProvider> mostReliableLaunchServiceProviders(int k) {
-        return null;
+        logger.info("find most reliable launch service " + k + "");
+        Collection<LaunchServiceProvider> providersList = dao.loadAll(LaunchServiceProvider.class);
+        List<LaunchServiceProvider> launchServiceProviderList = new ArrayList<>();
+        int number = 0;
+        int total = 0;
+        double ratio = 0.0;
+        Iterator<LaunchServiceProvider> launchServiceProvider = providersList.iterator();
+        while (!providersList.isEmpty() && launchServiceProvider.hasNext()) {
+            LaunchServiceProvider lsp = launchServiceProvider.next();
+            total = lsp.getRockets().size();
+            if (lsp.getRockets().iterator().next().getLaunch().getLaunchOutcome()==SUCCESSFUL)
+                number = number +1;
+            ratio = number/total;
+            lsp.setRatio(ratio);
+            launchServiceProviderList.add(lsp);
+        }
+        Collections.sort(launchServiceProviderList,new Comparator<LaunchServiceProvider>(){
+            @Override
+            public int compare(LaunchServiceProvider o1, LaunchServiceProvider o2) {
+                return new Double(o2.getRatio()).compareTo(new Double(o1.getRatio()));
+            }});
+        return launchServiceProviderList.stream().limit(k).collect(Collectors.toList());
     }
 
     /**
@@ -75,7 +132,7 @@ public class RocketMiner {
      * @return the country who sends the most payload to the orbit
      */
     public String dominantCountry(String orbit) {
-        logger.info("find the most launched country in " + orbit + "orbit");
+        logger.info("find the most launched country in " + orbit + " orbit");
         Collection<Launch> launches = dao.loadAll(Launch.class);
         ArrayList<Rocket> rockets = new ArrayList<>();
         for(Launch launch:launches){

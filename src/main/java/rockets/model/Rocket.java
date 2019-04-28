@@ -24,6 +24,8 @@ public class  Rocket extends Entity {
 
     private String massToOther;
 
+    private Launch launch;
+
 
     /**
      * All parameters shouldn't be null.
@@ -71,6 +73,14 @@ public class  Rocket extends Entity {
 
     public String getMassToOther() {
         return massToOther;
+    }
+
+    public Launch getLaunch() {
+        return launch;
+    }
+
+    public void setLaunch(Launch launch) {
+        this.launch = launch;
     }
 
     public void setFamily(String family){

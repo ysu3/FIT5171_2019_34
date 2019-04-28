@@ -26,6 +26,7 @@ public class Neo4jDAOUnitTest {
     private LaunchServiceProvider esa;
     private LaunchServiceProvider spacex;
     private Rocket rocket;
+    private User user;
 
     @BeforeAll
     public void initializeNeo4j() {
@@ -42,6 +43,7 @@ public class Neo4jDAOUnitTest {
         esa = new LaunchServiceProvider("ESA", 1970, "Europe");
         spacex = new LaunchServiceProvider("SpaceX", 2002, "USA");
         rocket = new Rocket("F9", "USA", spacex);
+        user = new User("kaixiang","Zhang","kaixiang0220@gmail.com","zkx123456789");
     }
 
     @Test
@@ -162,6 +164,25 @@ public class Neo4jDAOUnitTest {
         dao.delete(rocket);
         assertTrue(dao.loadAll(Rocket.class).isEmpty());
         assertFalse(dao.loadAll(LaunchServiceProvider.class).isEmpty());
+    }
+
+    @Test
+    public void shouldDeleteLaunchServerProviderDirectly()  // delete the provider directly.
+    {
+        dao.createOrUpdate(spacex);
+        assertNotNull(spacex.getName());
+        assertNotNull(spacex.getYearFounded());
+        assertNotNull(spacex.getCountry());
+        dao.delete(spacex);
+    }
+
+    @Test
+    public void shouldDeleteUserWithoutDeleteRocket()  // delete User directly without delete the rockets.
+    {
+        dao.createOrUpdate(user);
+        assertNotNull(user.getFirstName());
+        assertNotNull(user.getLastName());
+        assertNotNull(user.getEmail());
     }
 
     @AfterEach

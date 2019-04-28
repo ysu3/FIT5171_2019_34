@@ -25,6 +25,8 @@ public class LaunchServiceProvider extends Entity {
 
     private String revenue;
 
+    private double ratio;
+
     public LaunchServiceProvider(String name, int yearFounded, String country) {
         this.name = name;
         this.yearFounded = yearFounded;
@@ -59,6 +61,15 @@ public class LaunchServiceProvider extends Entity {
     public String getRevenue() {
         return revenue;
     }
+
+    public double getRatio() {
+        return ratio;
+    }
+
+    public void setRatio(double ratio) {
+        this.ratio = ratio;
+    }
+
 
     public void setRevenue(String revenue) {
         notNull(revenue, "Revenue cannot be null or empty");
