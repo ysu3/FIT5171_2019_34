@@ -18,6 +18,19 @@ public class User extends Entity {
 
     private Set<Rocket> rocketSet;
 
+    public User() // add one default constructor for the User class
+    {
+
+    }
+    public User(String firstName,String lastName,String email,String password)  //add a constructor for the User class
+    {
+        this.firstName = firstName;
+        this.lastName =lastName;
+        this.email = email;
+        this.password = password;
+    }
+
+
 
     public String getFirstName() {
         return firstName;

@@ -1,5 +1,6 @@
 package rockets.mining;
 
+import org.neo4j.cypher.internal.frontend.v2_3.ast.functions.Str;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rockets.dataaccess.DAO;
@@ -10,9 +11,9 @@ import rockets.model.Rocket;
 import java.util.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import static rockets.model.Launch.LaunchOutcome.SUCCESSFUL;
+//import static rockets.model.Launch.LaunchOutcome.FAILED;
 
-import static java.util.Map.Entry.comparingByValue;
-import static java.util.Spliterators.iterator;
 
 public class RocketMiner {
     private static Logger logger = LoggerFactory.getLogger(RocketMiner.class);
@@ -58,21 +59,39 @@ public class RocketMiner {
     public List<Rocket> mostLaunchedRockets(int k) {
         logger.info("find most active" + k + "rockets");
         Collection<Rocket> rocketList = dao.loadAll(Rocket.class); //get the Collection for all the rockets;
-        Map<Rocket,Integer> rocketHashMap = new HashMap<>(); //create a Map for the rocket and grouping by the family
+        Map<String,Integer> rocketHashMap = new HashMap<>(); //create a Map for the rocket and grouping by the family
+        List<Rocket> list = new ArrayList<>();
         Iterator<Rocket> rockets = rocketList.iterator();
-        int number = 0;
-        while (!rocketList.isEmpty() && rocketList.iterator().hasNext()) {
+        while (!rocketList.isEmpty() && rockets.hasNext()) {
             Rocket rocket = rockets.next();
-            if (rocket.getLaunch().getLaunchOutcome().equals("SUCCESSFUL") && rocket.getFamily().contains(rocket.getFamily())) { // get the rocket which was launched and successful
-                rocketHashMap.put(rocket,+1);
+            if (rocket.getLaunch().getLaunchOutcome()==SUCCESSFUL && rocketHashMap.containsKey(rocket.getName())){
+                rocketHashMap.put(rocket.getName(),rocketHashMap.get(rocket.getName())+1);
             } else {
-                rocketHashMap.put(rocket,number);
+                rocketHashMap.put(rocket.getName(),0);
             }
         }
-        Comparator<Map.Entry<Rocket,Integer>> comparator = Comparator.comparing(Map.Entry<Rocket,Integer>::getValue);
-        return rocketHashMap.entrySet().stream().sorted(comparator).limit(k).map(entry -> entry.getKey()).collect(Collectors.toList());
-
-                //filter(entry->entry.getValue()>= k).map(entry->entry.getKey()).collect(Collectors.toList());
+        List<Map.Entry<String, Integer>> RMLList = new ArrayList<>();
+        RMLList.addAll(rocketHashMap.entrySet());
+        Collections.sort(RMLList, new Comparator<Map.Entry<String, Integer>>() {
+            @Override
+            public int compare(Map.Entry<String, Integer> entry1, Map.Entry<String, Integer> entry2) {
+                return entry2.getValue().compareTo(entry1.getValue());
+            }
+        });
+        Iterator<Rocket> rocketIterator = rocketList.iterator();
+        for (int i =0;i<k ;i++)
+        {
+            Map.Entry<String, Integer> entry = RMLList.listIterator().next();
+             while (true)
+             {
+                 if (!rocketIterator.hasNext()) break;
+                 Rocket rocket = rocketIterator.next();
+                  if(rocket.getName().contains(entry.getKey()) && list.size()< k){
+                      boolean add = list.add(rocket);
+                  }
+             }
+        }
+        return list;
     }
 
     /**
@@ -85,32 +104,29 @@ public class RocketMiner {
      * @return the list of k most reliable ones.
      */
     public List<LaunchServiceProvider> mostReliableLaunchServiceProviders(int k) {
-        logger.info("find most reliable launch service "+ k +"");
+        logger.info("find most reliable launch service " + k + "");
         Collection<LaunchServiceProvider> providersList = dao.loadAll(LaunchServiceProvider.class);
-        List<Rocket> topRocket = mostLaunchedRockets(k); //get the top K Rocket which is launched successful.
-        Map<LaunchServiceProvider, Double> percentageTopLSP = new HashMap<>(); // Create a Map to store  the launchServiceProvider(LSP)
+        List<LaunchServiceProvider> launchServiceProviderList = new ArrayList<>();
         int number = 0;
-        double ratio =0.0;
-        while (!providersList.isEmpty() && providersList.iterator().hasNext()){ // if the provider List is not empty and has next.
-            LaunchServiceProvider launchServiceProvider = providersList.iterator().next();  // traverse the LSP collection and get the provide object.
-            int numberRocket = launchServiceProvider.getRockets().size(); // the total numbers of rocket for each provide.
-             while (launchServiceProvider.getRockets().iterator().hasNext()) {
-                 Rocket rocket = launchServiceProvider.getRockets().iterator().next();// traversal the rocket collection for each provide.
-                 if(topRocket.contains(rocket)) // select every rocket which was launched successful.
-                     //rockets.add(rocket);  // add the launched successful rocket in the new collection.
-                     number += 1;   // get the new collection size / the number of the rocket.
-                     //launchServiceProvider.setRatio(ratio);//add the the ratio for each provide.
-             }
-            ratio = number/numberRocket;
-            percentageTopLSP.put(launchServiceProvider,ratio);
+        int total = 0;
+        double ratio = 0.0;
+        Iterator<LaunchServiceProvider> launchServiceProvider = providersList.iterator();
+        while (!providersList.isEmpty() && launchServiceProvider.hasNext()) {
+              LaunchServiceProvider lsp = launchServiceProvider.next();
+              total = lsp.getRockets().size();
+                if (lsp.getRockets().iterator().next().getLaunch().getLaunchOutcome()==SUCCESSFUL)
+                number = number +1;
+                ratio = number/total;
+                lsp.setRatio(ratio);
+                launchServiceProviderList.add(lsp);
         }
-        //Comparator<Map.Entry<LaunchServiceProvider,Double>> comparator = Comparator.comparing(Map.Entry<LaunchServiceProvider,Double>::getValue);
-        return percentageTopLSP.entrySet().stream().sorted(Comparator.comparing(Map.Entry<LaunchServiceProvider,Double>::getValue)).limit(k)
-                .map(entry->entry.getKey())
-                .collect(Collectors.toList());
+        Collections.sort(launchServiceProviderList,new Comparator<LaunchServiceProvider>(){
+            @Override
+            public int compare(LaunchServiceProvider o1, LaunchServiceProvider o2) {
+                return new Double(o2.getRatio()).compareTo(new Double(o1.getRatio()));
+            }});
+        return launchServiceProviderList.stream().limit(k).collect(Collectors.toList());
     }
-
-
 
     /**
      * <p>

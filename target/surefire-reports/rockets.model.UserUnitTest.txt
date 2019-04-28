@@ -1,4 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: rockets.model.UserUnitTest
 -------------------------------------------------------------------------------
-Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec
+Tests run: 8, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0 s <<< FAILURE! - in rockets.model.UserUnitTest
+shouldReturnFalseWhenEmailIsNotInTheRightFormat  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalArgumentException: Use the valid email address
+	at rockets.model.UserUnitTest.shouldReturnFalseWhenEmailIsNotInTheRightFormat(UserUnitTest.java:93)
+

@@ -1,4 +1,7 @@
-E:\Notes\FIT5171\FIT5171_assignment_2-kaixiang\src\test\java\rockets\mining\RocketMinerUnitTest.java
-E:\Notes\FIT5171\FIT5171_assignment_2-kaixiang\src\test\java\rockets\model\UserUnitTest.java
-E:\Notes\FIT5171\FIT5171_assignment_2-kaixiang\src\test\java\rockets\dataaccess\neo4j\Neo4jDAOUnitTest.java
-E:\Notes\FIT5171\FIT5171_assignment_2-kaixiang\src\test\java\rockets\model\RocketUnitTest.java
+E:\Notes\FIT5171\fit5171_2019_34-kaixiang\src\test\java\rockets\dataaccess\neo4j\Neo4jDAOUnitTest.java
+E:\Notes\FIT5171\fit5171_2019_34-kaixiang\src\test\java\rockets\model\LaunchServiceProviderUnitTest.java
+E:\Notes\FIT5171\fit5171_2019_34-kaixiang\src\test\java\rockets\model\RocketTest.java
+E:\Notes\FIT5171\fit5171_2019_34-kaixiang\src\test\java\rockets\model\UserUnitTest.java
+E:\Notes\FIT5171\fit5171_2019_34-kaixiang\src\test\java\rockets\model\RocketUnitTest.java
+E:\Notes\FIT5171\fit5171_2019_34-kaixiang\src\test\java\rockets\model\LaunchUnitTest.java
+E:\Notes\FIT5171\fit5171_2019_34-kaixiang\src\test\java\rockets\mining\RocketMinerUnitTest.java

@@ -6,6 +6,7 @@ import java.util.Objects;
 import static org.apache.commons.lang3.Validate.notNull;
 
 public class  Rocket extends Entity {
+
     private String name;
 
     private String country;
@@ -46,10 +47,7 @@ public class  Rocket extends Entity {
     }
 
 
-
-    public String getName() {
-        return name;
-    }
+    public String getName() { return name; }
 
     public String getCountry() {
         return country;
@@ -75,6 +73,17 @@ public class  Rocket extends Entity {
 
     public String getMassToOther() {
         return massToOther;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCountry(String Country) {
+        this.country = Country;
+    }
+    public void setManufacturer(LaunchServiceProvider Manufacturer) {
+        this.manufacturer = Manufacturer;
     }
 
     public void setFamily(String family){
