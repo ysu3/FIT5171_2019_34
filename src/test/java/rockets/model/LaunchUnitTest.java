@@ -42,5 +42,95 @@ public class LaunchUnitTest {
         assertFalse(isTrue, "false");
     }
 
+    @DisplayName("should throw exception when pass blank to launchDate")
+    @Test
+    public void whenEnterNullLaunchDate(){
+        target = new Launch();
+        NullPointerException exception = assertThrows(NullPointerException.class,
+                () -> target.setLaunchDate(null));
+        assertEquals("LaunchDate cannot be null or empty", exception.getMessage());
+
+    }
+
+    @DisplayName("should throw exception when pass blank to LaunchVehicle")
+    @Test
+    public void whenEnterNullLaunchVehicle(){
+        target = new Launch();
+        NullPointerException exception = assertThrows(NullPointerException.class,
+                () -> target.setLaunchVehicle(null));
+        assertEquals("LaunchVehicle cannot be null or empty", exception.getMessage());
+
+    }
+
+    @DisplayName("should throw exception when pass blank to LaunchVehicle")
+    @Test
+    public void whenEnterNullLaunchServiceProvider(){
+        target = new Launch();
+        NullPointerException exception = assertThrows(NullPointerException.class,
+                () -> target.setLaunchServiceProvider(null));
+        assertEquals("LaunchServiceProvider cannot be null or empty", exception.getMessage());
+
+    }
+
+    @DisplayName("should throw exception when pass blank to Payload")
+    @Test
+    public void whenEnterNullPayload(){
+        target = new Launch();
+        NullPointerException exception = assertThrows(NullPointerException.class,
+                () -> target.setPayload(null));
+        assertEquals("Payload cannot be null or empty", exception.getMessage());
+
+    }
+
+    @DisplayName("should throw exception when pass blank to LaunchSite")
+    @Test
+    public void whenEnterNullLaunchSited(){
+        target = new Launch();
+        NullPointerException exception = assertThrows(NullPointerException.class,
+                () -> target.setLaunchSite(null));
+        assertEquals("LaunchSite cannot be null or empty", exception.getMessage());
+
+    }
+
+    @DisplayName("should throw exception when pass blank to Orbit")
+    @Test
+    public void whenEnterNullOrbit(){
+        target = new Launch();
+        NullPointerException exception = assertThrows(NullPointerException.class,
+                () -> target.setOrbit(null));
+        assertEquals("Orbit cannot be null or empty", exception.getMessage());
+
+    }
+
+    @DisplayName("should throw exception when pass blank to Function")
+    @Test
+    public void whenEnterNullFunction(){
+        target = new Launch();
+        NullPointerException exception = assertThrows(NullPointerException.class,
+                () -> target.setFunction(null));
+        assertEquals("Function cannot be null or empty", exception.getMessage());
+
+    }
+
+    @DisplayName("should throw exception when pass blank to Price")
+    @Test
+    public void whenEnterNullPrice(){
+        target = new Launch();
+        NullPointerException exception = assertThrows(NullPointerException.class,
+                () -> target.setPrice(null));
+        assertEquals("Price cannot be null or empty", exception.getMessage());
+
+    }
+
+    @DisplayName("should throw exception when pass blank to LaunchOutcome")
+    @Test
+    public void whenEnterNullLaunchOutcome(){
+        target = new Launch();
+        NullPointerException exception = assertThrows(NullPointerException.class,
+                () -> target.setLaunchOutcome(null));
+        assertEquals("LaunchOutcome cannot be null or empty", exception.getMessage());
+
+    }
+
 }
 

@@ -57,6 +57,27 @@ class RocketTest {
         assertEquals(massToLEO, bfr.getMassToLEO());
     }
 
+    @DisplayName("should throw exception when pass null to Name")
+    @Test
+    public void shouldThrowExceptionWhenNameToNull() {
+        NullPointerException exception = assertThrows(NullPointerException.class, () -> target = new Rocket(null,"2",lsp));
+        assertEquals("Name cannot be null", exception.getMessage());
+    }
+
+    @DisplayName("should throw exception when pass null to Country")
+    @Test
+    public void shouldThrowExceptionWhenCountryToNull() {
+        NullPointerException exception = assertThrows(NullPointerException.class, () -> target = new Rocket("1",null,lsp));
+        assertEquals("Country cannot be null", exception.getMessage());
+    }
+
+    @DisplayName("should throw exception when pass null to Manufacturer")
+    @Test
+    public void shouldThrowExceptionWhenManufacturerToNull() {
+        NullPointerException exception = assertThrows(NullPointerException.class, () -> target = new Rocket("1","2",null));
+        assertEquals("Manufacturer cannot be null", exception.getMessage());
+    }
+
 
     //MassToGTO should not be null
     @DisplayName("should throw exception when pass null to setMassToGTO function")

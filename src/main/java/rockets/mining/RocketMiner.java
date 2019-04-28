@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import java.util.Collections;
 import java.util.Set;
 import java.util.LinkedHashSet;
+import java.util.*;
 
 
 public class RocketMiner {
@@ -74,8 +75,42 @@ public class RocketMiner {
      * @return the country who sends the most payload to the orbit
      */
     public String dominantCountry(String orbit) {
-
-        return null;
+        logger.info("find the most launched country in " + orbit + "orbit");
+        Collection<Launch> launches = dao.loadAll(Launch.class);
+        ArrayList<Rocket> rockets = new ArrayList<>();
+        for(Launch launch:launches){
+            if(launch.getOrbit().equals(orbit)){
+                rockets.add(launch.getLaunchVehicle());
+            }
+        }
+        Map<String, Integer> rocketCountryMap = new HashMap<String, Integer>();
+        for(Rocket rocket:rockets){
+            if(rocketCountryMap.containsKey(rocket.getCountry())){
+                rocketCountryMap.put(rocket.getCountry(), rocketCountryMap.get(rocket.getCountry()) + 1);
+            }else{
+                rocketCountryMap.put(rocket.getCountry(), 1);
+            }
+        }
+        int maxV = 0;
+        String maxK = null;
+        String maxK_mayberemove = null;
+        Iterator keys = rocketCountryMap.keySet().iterator();
+        while (keys.hasNext()) {
+            Object key = keys.next();
+            maxK = key.toString();
+            int value = rocketCountryMap.get(key);
+            if (value > maxV) {
+                if (null != maxK_mayberemove) {
+                    rocketCountryMap.clear();
+                }
+                maxV = value;
+                rocketCountryMap.put(maxK, maxV);
+                maxK_mayberemove = maxK;
+            } else if (value == maxV) {
+                rocketCountryMap.put(maxK, maxV);
+            }
+        }
+        return maxK;
     }
 
     /**
@@ -107,8 +142,17 @@ public class RocketMiner {
 
         logger.info("find highest revenue " + k + " LaunchServiceProvider in " + year);
         Collection<LaunchServiceProvider> lsps = dao.loadAll(LaunchServiceProvider.class);
-        Comparator<LaunchServiceProvider> lspsRevenueComparator = (a, b) -> -a.getRevenue().compareTo(b.getRevenue());
-        return lsps.stream().sorted(lspsRevenueComparator).limit(k).collect(Collectors.toList());
+        ArrayList<LaunchServiceProvider> lspsArrayList = new ArrayList<LaunchServiceProvider>();
+        for(LaunchServiceProvider lsp:lsps){
+            if(lsp.getYearFounded() == year){
+                lspsArrayList.add(lsp);
+            }
+        }
+        LaunchServiceProvider[] lspsArray = lspsArrayList.toArray(new LaunchServiceProvider[lspsArrayList.size()]);
 
+
+        Comparator<LaunchServiceProvider> lspsRevenueComparator = (a,b) -> -a.getRevenue().compareTo(b.getRevenue());
+        return lsps.stream().sorted(lspsRevenueComparator).limit(k).collect(Collectors.toList());
     }
 }
+

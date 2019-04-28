@@ -72,6 +72,7 @@ public class LaunchServiceProvider extends Entity {
     }
 
     public void setRockets(Set<Rocket> rockets) {
+        notNull(rockets, "Rockets cannot be null or empty");
         this.rockets = rockets;
     }
 
