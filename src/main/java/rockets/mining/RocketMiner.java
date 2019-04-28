@@ -57,7 +57,7 @@ public class RocketMiner {
     */
     //The top-K most active rockets without grouping by family.
     public List<Rocket> mostLaunchedRockets(int k) {
-        logger.info("find most active" + k + "rockets");
+        logger.info("find most active  " + k + " rockets");
         Collection<Rocket> rocketList = dao.loadAll(Rocket.class); //get the Collection for all the rockets;
         Map<String,Integer> rocketHashMap = new HashMap<>(); //create a Map for the rocket and grouping by the family
         List<Rocket> list = new ArrayList<>();

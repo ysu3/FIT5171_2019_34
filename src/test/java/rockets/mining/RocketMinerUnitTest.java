@@ -125,7 +125,7 @@ public class RocketMinerUnitTest {
         List<Rocket> rocketList = new ArrayList<>(rockets);
         Map<String, Integer> rocketMap = new HashMap<String, Integer>();
         Iterator<Rocket> rocketIterator = rocketList.iterator();
-        List<Rocket> list = new ArrayList<>();
+        //List<Rocket> list = new ArrayList<>();
         while (rocketIterator.hasNext()) {
             Rocket rocket = rocketIterator.next();
             if (rocket.getLaunch().getLaunchOutcome() != null && rocketMap.containsKey(rocket.getName())) {
@@ -145,19 +145,19 @@ public class RocketMinerUnitTest {
         List<Map.Entry<String, Integer>> list1 = listmap.subList(0, k);
         List<Rocket> rocketList1 = new ArrayList<>();
         Iterator<Rocket> iterator = rocketList.listIterator();
-        for (int i = 0; i < k; i++) {
+        for (int i = 0; i < k; i++)
+        {
             Map.Entry<String, Integer> entry = list1.listIterator().next();
-            while (true) {
-                if (!rocketIterator.hasNext()) break;
-                Rocket rocket = rocketIterator.next();
-                if (rocket.getName().contains(entry.getKey()) && list.size() < k) {
-                    boolean add = list.add(rocket);
-                    List<Rocket> loadedRockets = miner.mostLaunchedRockets(k);
-                    assertEquals(k, loadedRockets.size());
-                    assertEquals(rocketList1, loadedRockets);
+            while (iterator.hasNext()){
+                Rocket rocket = iterator.next();
+                if(rocket.getName().contains(entry.getKey()) && rocketList1.size() < k){
+                    boolean add = rocketList1.add(rocket);
+                    }
                 }
-            }
         }
+        List<Rocket> loadedRockets = miner.mostLaunchedRockets(k);
+        assertEquals(k, loadedRockets.size());
+        assertEquals(rocketList1, loadedRockets);
     }
 
 
