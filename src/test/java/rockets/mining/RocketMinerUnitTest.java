@@ -43,7 +43,7 @@ public class RocketMinerUnitTest {
         dao = mock(Neo4jDAO.class);
         miner = new RocketMiner(dao);
         rockets = Lists.newArrayList();
-
+//
         lsps = Arrays.asList(
                 new LaunchServiceProvider("ULA", 1990, "USA"),
                 new LaunchServiceProvider("SpaceX", 2002, "USA"),
